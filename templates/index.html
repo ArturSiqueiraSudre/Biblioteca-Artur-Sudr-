@@ -2,196 +2,53 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livraria MVP</title>
+    <title>Portal do Leitor</title>
     <style>
-        :root {
-            --primary: #4A3BCE;
-            --bg-color: #F8F9FA;
-            --text-dark: #212529;
-            --text-light: #6C757D;
-            --white: #FFFFFF;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-        }
-
-        /* Navbar */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            background-color: var(--white);
-            border-bottom: 1px solid #E9ECEF;
-        }
-
-        .logo {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            background-color: var(--primary);
-            color: var(--white);
-            margin: 2rem 5%;
-            padding: 3rem;
-            border-radius: 12px;
-            text-align: left;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin-bottom: 2rem;
-        }
-
-        /* Formulário de Cadastro (Ação do MVC) */
-        .form-container {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 8px;
-            display: inline-block;
-        }
-
-        .form-container input {
-            padding: 0.8rem;
-            border: none;
-            border-radius: 4px;
-            margin-right: 0.5rem;
-            width: 250px;
-        }
-
-        .form-container button {
-            padding: 0.8rem 1.5rem;
-            background-color: var(--white);
-            color: var(--primary);
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .form-container button:hover {
-            background-color: #E9ECEF;
-        }
-
-        /* Grid de Livrarias */
-        .section-title {
-            margin: 2rem 5% 1rem;
-            font-size: 1.5rem;
-            color: var(--text-dark);
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
-            padding: 0 5% 3rem;
-        }
-
-        .card {
-            background-color: var(--white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-img-placeholder {
-            height: 150px;
-            background-color: #DEE2E6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .card-content {
-            padding: 1rem;
-        }
-
-        .card-category {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: var(--primary);
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .card-author {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #F8F9FA; color: #212529; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { background: #4A3BCE; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .btn { background: #4A3BCE; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn:hover { background: #382bad; }
+        .minhas-alocacoes { margin-top: 40px; border-top: 2px solid #dee2e6; padding-top: 20px; }
+        .tag-livraria { font-size: 0.8rem; color: #6c757d; background: #e9ecef; padding: 3px 8px; border-radius: 12px; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <h2>Bem-vindo, {{ usuario }}</h2>
+            <p>Encontre livros em livrarias parceiras e faca sua alocacao.</p>
+        </div>
 
-    <header>
-        <div class="logo">Livraria MVP</div>
-        <div style="color: var(--text-light); font-size: 0.9rem;">Área do Administrador</div>
-    </header>
-
-    <section class="hero">
-        <h1>Descubra novas livrarias</h1>
-        <p>Cadastre e gerencie a rede de livrarias parceiras no sistema. Adicione novos pontos de venda abaixo.</p>
+        <h3>Catalogo Disponivel nas Livrarias</h3>
         
-        <div class="form-container">
-            <form method="POST" action="/">
-                <input type="text" name="titulo_livro" placeholder="Nome da Livraria" required>
-                <input type="text" name="autor_livro" placeholder="Localização/Cidade" required>
-                <button type="submit">Cadastrar Livraria</button>
+        {% for id_livro, titulo, livraria in catalogo %}
+        <div class="card">
+            <div>
+                <strong>{{ titulo }}</strong><br>
+                <span class="tag-livraria">Local: {{ livraria }}</span>
+            </div>
+            <form method="POST" action="/" style="margin: 0;">
+                <input type="hidden" name="livro_id" value="{{ id_livro }}">
+                <button type="submit" class="btn">Alocar Livro</button>
             </form>
         </div>
-    </section>
-
-    <h2 class="section-title">Rede Cadastrada</h2>
-    
-    <div class="grid-container">
-        {% for livro in livros %}
-        <div class="card">
-            <div class="card-img-placeholder">Sem Imagem</div>
-            <div class="card-content">
-                <div class="card-category">Filial Ativa</div>
-                <div class="card-title">{{ livro.titulo }}</div>
-                <div class="card-author">{{ livro.autor }}</div>
-            </div>
-        </div>
-        {% else %}
-        <div style="grid-column: 1 / -1; color: var(--text-light); padding: 2rem 0;">
-            Nenhuma livraria cadastrada no sistema. Utilize o painel acima para registrar a primeira.
-        </div>
         {% endfor %}
-    </div>
 
+        <div class="minhas-alocacoes">
+            <h3>Meus Livros Alocados</h3>
+            {% for titulo, livraria in meus_livros %}
+            <div class="card" style="background: #eef2ff;">
+                <div>
+                    <strong>Livro: {{ titulo }}</strong><br>
+                    <span class="tag-livraria" style="background: white;">Retirar em: {{ livraria }}</span>
+                </div>
+            </div>
+            {% else %}
+            <p style="color: #6c757d;">Voce ainda nao alocou nenhum livro.</p>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>

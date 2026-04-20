@@ -1,26 +1,25 @@
-# controller.py
 from flask import Flask, render_template, request
-from model import ModuloLivraria
+from model import SistemaAlocacao
 
 app = Flask(__name__)
-
-# Instancia o domínio de negócio isolado
-sistema_livraria = ModuloLivraria()
+sistema = SistemaAlocacao()
 
 @app.route("/", methods=["GET", "POST"])
-def gerenciar_livraria():
-    # Roteamento da ação do usuário (Computador -> Caixa Azul)
+def portal_cliente():
+    usuario_logado = "Artur" 
+    
     if request.method == "POST":
-        titulo = request.form.get("titulo_livro")
-        autor = request.form.get("autor_livro")
-        # Controlador aciona a lógica de dados
-        sistema_livraria.registrar_livro(titulo, autor)
+        id_livro_escolhido = request.form.get("livro_id")
+        if id_livro_escolhido:
+            sistema.alocar_livro(id_livro_escolhido, usuario_logado)
+            
+    catalogo_disponivel = sistema.listar_catalogo()
+    meus_livros = sistema.listar_alocacoes_usuario(usuario_logado)
     
-    # Controlador busca o estado atual (Caixa Azul -> Banco de Dados)
-    acervo_atualizado = sistema_livraria.consultar_acervo()
-    
-    # Controlador devolve a resposta (Caixa Azul -> Computador)
-    return render_template("index.html", livros=acervo_atualizado)
+    return render_template("index.html", 
+                           catalogo=catalogo_disponivel, 
+                           meus_livros=meus_livros, 
+                           usuario=usuario_logado)
 
 if __name__ == "__main__":
     app.run(debug=True)
