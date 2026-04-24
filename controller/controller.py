@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from model import SistemaAlocacao
+from model.model import SistemaAlocacao
 
 app = Flask(__name__)
 sistema = SistemaAlocacao()
